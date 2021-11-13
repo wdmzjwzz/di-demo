@@ -1,5 +1,5 @@
 
-import { container, controller, inject } from "./ioc/index"
+import { container, controller, inject } from "./container/index"
 import TYPES from './TYPEs'
 import 'reflect-metadata'
 import { IndexService } from "./service/indexService"

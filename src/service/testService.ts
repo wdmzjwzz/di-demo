@@ -1,4 +1,4 @@
-import { container } from "../ioc"
+import { container } from "../container"
 import TYPES from "../TYPEs"
 
 interface ITestService {

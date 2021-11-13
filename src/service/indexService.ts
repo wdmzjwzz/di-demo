@@ -1,4 +1,4 @@
-import { container } from "../ioc/index"
+import { container } from "../container/index"
 interface IIndexService {
     log(str: string): void
 }
