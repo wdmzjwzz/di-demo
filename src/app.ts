@@ -4,8 +4,8 @@ import TYPES from './TYPEs'
 import 'reflect-metadata'
 import { IndexService } from "./service/indexService"
 import { TestService } from "./service/testService"
-container.bind(TYPES.indexService, () => new IndexService())
-container.bind(TYPES.testService, () => new TestService())
+container.bind(TYPES.indexService, IndexService,[5])
+container.bind(TYPES.testService, TestService)
 @controller
 class IndexController {
     public indexService: IndexService;
@@ -18,7 +18,7 @@ class IndexController {
     info() {
         this.indexService.log("hello world")
         this.testService.log("hello world")
-       
+        console.log(this.indexService.a)
     }
 }
 const index = new IndexController()

@@ -13,4 +13,3 @@ export class TestService implements ITestService {
         return a + b
     }
 }
-container.bind(TYPES.testService, () => new TestService())

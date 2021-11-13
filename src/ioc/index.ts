@@ -1,24 +1,28 @@
 import TYPES from "../TYPEs";
 import { getParams, hasKey } from "./utils";
-
+interface ClassInfo {
+    clazz: { new(...args: any[]): {} },
+    args: Array<any>
+}
 class CreateIoc {
     static _instance: CreateIoc;
-    public container: Map<symbol, { callback: Function }>;
+    public container: Map<symbol, ClassInfo>;
     constructor() {
         this.container = new Map();
-
     }
     get(namespace: symbol) {
-        let item = this.container.get(namespace)
-        if (item) {
-            return item.callback()
-        } else {
-            throw new Error("not find name");
-
+        const target = this.container.get(namespace);
+        if (!target) {
+            return null
         }
+        const { clazz, args } = target;
+        return Reflect.construct(clazz, args);
     }
-    bind(key: symbol, callback: Function) {
-        this.container.set(key, { callback })
+    bind<T extends { new(...args: any[]): {} }>(identifier: symbol, clazz: T, constructorArgs?: Array<any>) {
+        this.container.set(identifier, {
+            clazz,
+            args: constructorArgs || []
+        });
     }
     static getInstance() {
         if (!CreateIoc._instance) {
@@ -26,6 +30,7 @@ class CreateIoc {
         }
         return CreateIoc._instance
     }
+
 }
 export const container = CreateIoc.getInstance()
 export function controller<T extends { new(...args: any[]): {} }>(constructor: T) {
@@ -38,7 +43,6 @@ export function controller<T extends { new(...args: any[]): {} }>(constructor: T
             for (ident of params) {
                 if (hasKey(this, ident)) {
                     this[ident] = Reflect.getMetadata(TYPES[ident], constructor)
-
                 }
 
             }
