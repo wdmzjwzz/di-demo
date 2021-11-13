@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "experimentalDecorators": true,
+        "lib": ["es6", "dom"],
+        "noImplicitThis": true,
+        "noImplicitAny": true,
+        "strict": true
+    }
+}
